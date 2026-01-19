@@ -20,12 +20,13 @@ os.system("clear")
 def show_hdi_ascii():
     cprint("""
 
-██╗  ██╗██████╗ ██╗ ██████╗ ██╗     ██╗
-██║  ██║██╔══██╗██║██╔═══██╗██║     ██║
-███████║██║  ██║██║██║   ██║██║     ██║
-██╔══██║██║  ██║██║██║   ██║██║     ██║
-██║  ██║██████╔╝██║╚██████╔╝███████╗██║
-╚═╝  ╚═╝╚═════╝ ╚═╝ ╚═════╝ ╚══════╝╚═╝
+░▒▓█▓▒░░▒▓█▓▒░▒▓███████▓▒░░▒▓█▓▒░       ░▒▓███████▓▒░▒▓██████▓▒░░▒▓█▓▒░░▒▓█▓▒░
+░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░      ░▒▓█▓▒░     ░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░
+░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░      ░▒▓█▓▒░     ░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░
+░▒▓████████▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░      ░▒▓███████▓▒░▒▓███████▓▒░▒▓███████▓▒░
+░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░      ░▒▓█▓▒░░▒▓█▓▒░     ░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░
+░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░▒▓██▓▒░▒▓█▓▒░░▒▓█▓▒░     ░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░
+░▒▓█▓▒░░▒▓█▓▒░▒▓███████▓▒░░▒▓█▓▒░▒▓██▓▒░▒▓██████▓▒░░▒▓██████▓▒░░▒▓█▓▒░░▒▓█▓▒░
 
 """, "red", attrs=["bold"])
     time.sleep(1)
@@ -34,19 +35,18 @@ def show_hdi_ascii():
 def show_intro():
     show_hdi_ascii()
     cprint("╔══════════════════════════════════════════════════════╗", "red")
-    cprint("║                    HDI INFO SEARCHER                 ║", "red")
-    cprint("║                    HDI.69k                            ║", "red")
-    cprint("║                Author - HDI.69k                      ║", "red")
+    cprint("║                  HDI INFO SEARCHER                  ║", "red")
+    cprint("║                      HDI.69k                        ║", "red")
+    cprint("║                 Author - HDI.69k                    ║", "red")
     cprint("╚══════════════════════════════════════════════════════╝", "red")
     time.sleep(1)
 
-# Show warning
+# Warning
 def show_warning():
     cprint("\n[!] WARNING: Use this tool responsibly", "yellow", attrs=["bold"])
     time.sleep(2)
-    # Tu peux remplacer ou supprimer le lien si tu veux
-    os.system("xdg-open https://www.tiktok.com/@hdi691400?_r=1&_t=ZN-93D7JNmBDFu")
-    time.sleep(5)
+    os.system("termux-open-url https://www.tiktok.com/@hdi691400")
+    time.sleep(3)
 
 # Loading
 def loading_animation():
@@ -103,37 +103,32 @@ def port_scanner():
     for port in range(1, 101):
         sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         sock.settimeout(0.3)
-        result = sock.connect_ex((ip, port))
-        if result == 0:
+        if sock.connect_ex((ip, port)) == 0:
             print(colored(f"Port {port} is OPEN", "green"))
         sock.close()
     input("\nPress Enter to return to menu...")
 
 def whois_lookup():
-    domain = input(colored("Enter domain (without https): ", "cyan"))
-    try:
-        result = subprocess.getoutput(f"whois {domain}")
-        print(colored(result, "magenta"))
-    except:
-        print(colored("Error fetching WHOIS.", "red"))
+    domain = input(colored("Enter domain: ", "cyan"))
+    result = subprocess.getoutput(f"whois {domain}")
+    print(colored(result, "magenta"))
     input("\nPress Enter to return to menu...")
 
 def headers_grabber():
-    url = input(colored("Enter website URL (with https): ", "cyan"))
+    url = input(colored("Enter website URL: ", "cyan"))
     try:
         headers = requests.get(url).headers
         for k, v in headers.items():
             print(colored(f"{k}: {v}", "magenta"))
     except:
-        print(colored("Invalid URL or error.", "red"))
+        print(colored("Invalid URL.", "red"))
     input("\nPress Enter to return to menu...")
 
 def subdomain_finder():
-    domain = input(colored("Enter domain (example.com): ", "cyan"))
-    subdomains = ["www", "mail", "ftp", "cpanel", "blog"]
-    print(colored("Scanning subdomains...", "yellow"))
-    for sub in subdomains:
-        url = f"http://{sub}.{domain}"
+    domain = input(colored("Enter domain: ", "cyan"))
+    subs = ["www", "mail", "ftp", "blog", "cpanel"]
+    for s in subs:
+        url = f"http://{s}.{domain}"
         try:
             requests.get(url, timeout=2)
             print(colored(f"[+] Found: {url}", "green"))
@@ -142,47 +137,43 @@ def subdomain_finder():
     input("\nPress Enter to return to menu...")
 
 def hash_identifier():
-    hash_input = input(colored("Enter hash: ", "cyan"))
-    length = len(hash_input)
-    hash_type = "Unknown"
-    if length == 32:
-        hash_type = "MD5"
-    elif length == 40:
-        hash_type = "SHA-1"
-    elif length == 64:
-        hash_type = "SHA-256"
-    print(colored(f"Possible Hash Type: {hash_type}", "magenta"))
+    h = input(colored("Enter hash: ", "cyan"))
+    l = len(h)
+    if l == 32:
+        t = "MD5"
+    elif l == 40:
+        t = "SHA1"
+    elif l == 64:
+        t = "SHA256"
+    else:
+        t = "Unknown"
+    print(colored(f"Possible hash type: {t}", "magenta"))
     input("\nPress Enter to return to menu...")
 
 def user_agent_generator():
-    user_agents = [
+    uas = [
         "Mozilla/5.0 (Windows NT 10.0; Win64; x64)",
         "Mozilla/5.0 (X11; Linux x86_64)",
-        "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7)",
-        "Mozilla/5.0 (iPhone; CPU iPhone OS 14_0 like Mac OS X)",
-        "Mozilla/5.0 (Android 11; Mobile)"
+        "Mozilla/5.0 (Android 11)",
+        "Mozilla/5.0 (iPhone)"
     ]
-    print(colored("Random User-Agent:", "yellow"))
-    print(colored(random.choice(user_agents), "magenta"))
+    print(colored(random.choice(uas), "magenta"))
     input("\nPress Enter to return to menu...")
 
 def save_report():
-    filename = input(colored("Enter report file name: ", "cyan"))
-    with open(filename, "w") as f:
-        f.write("HDI.69k REPORT\nGenerated by HDI.69k\n")
-        f.write("Add report data here...\n")
-    print(colored(f"Report saved as {filename}", "green"))
+    name = input(colored("File name: ", "cyan"))
+    with open(name, "w") as f:
+        f.write("HDI.69k REPORT\n")
+    print(colored("Report saved.", "green"))
     input("\nPress Enter to return to menu...")
 
 def clear_logs():
-    os.system("rm -rf *.log *.txt")
+    os.system("rm -f *.log *.txt")
     print(colored("Logs cleared.", "green"))
     input("\nPress Enter to return to menu...")
 
 def update_tool():
-    print(colored("Checking for updates...", "cyan"))
-    time.sleep(1)
-    print(colored("You're using the latest version!", "green"))
+    print(colored("No updates available.", "green"))
     input("\nPress Enter to return to menu...")
 
 # Main
@@ -192,35 +183,23 @@ def main():
     loading_animation()
     while True:
         show_menu()
-        choice = input(colored("\nSelect an option: ", "cyan"))
-        if choice == "1":
-            ip_geolocation()
-        elif choice == "2":
-            reverse_dns()
-        elif choice == "3":
-            port_scanner()
-        elif choice == "4":
-            whois_lookup()
-        elif choice == "5":
-            headers_grabber()
-        elif choice == "6":
-            subdomain_finder()
-        elif choice == "7":
-            hash_identifier()
-        elif choice == "8":
-            user_agent_generator()
-        elif choice == "9":
-            save_report()
-        elif choice == "10":
-            clear_logs()
-        elif choice == "11":
-            update_tool()
-        elif choice == "12":
-            print(colored("Exiting... Stay ethical, hacker!", "red"))
+        c = input(colored("Select option: ", "cyan"))
+        if c == "1": ip_geolocation()
+        elif c == "2": reverse_dns()
+        elif c == "3": port_scanner()
+        elif c == "4": whois_lookup()
+        elif c == "5": headers_grabber()
+        elif c == "6": subdomain_finder()
+        elif c == "7": hash_identifier()
+        elif c == "8": user_agent_generator()
+        elif c == "9": save_report()
+        elif c == "10": clear_logs()
+        elif c == "11": update_tool()
+        elif c == "12":
+            print(colored("Bye 👋", "red"))
             break
         else:
-            print(colored("Invalid option!", "red"))
-            time.sleep(1)
+            print(colored("Invalid option", "red"))
 
 if __name__ == "__main__":
     main()
