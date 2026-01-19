@@ -45,8 +45,7 @@ def show_warning():
     cprint("\n[!] WARNING: Use this tool responsibly", "yellow", attrs=["bold"])
     time.sleep(2)
     # Tu peux remplacer ou supprimer le lien si tu veux
-    os.system("xdg-open 
-   https://www.tiktok.com/@hdi691400?_r=1&_t=ZN-93D7JNmBDFu")
+    os.system("xdg-open https://www.tiktok.com/@hdi691400?_r=1&_t=ZN-93D7JNmBDFu")
     time.sleep(5)
 
 # Loading
